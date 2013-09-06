@@ -3,6 +3,6 @@
   <version>1000</version>
   <dependencies>
     <dependency>profile-Products.PloneBooking:default</dependency>
-    <dependency>profile-Solgema.fullcalendar:default</dependency>
+    <dependency>profile-collective.js.fullcalendar:default</dependency>
   </dependencies>
 </metadata>

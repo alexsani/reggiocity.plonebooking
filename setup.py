@@ -25,8 +25,10 @@ setup(name='reggiocity.plonebooking',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'five.grok',
           'Products.PloneBooking >= 3.0.0a2',
-          'Solgema.fullcalendar',
+          'collective.js.fullcalendar',
+          'z3c.jbot',
       ],
       entry_points="""
       # -*- Entry points: -*-

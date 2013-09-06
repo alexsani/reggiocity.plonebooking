@@ -1,0 +1,116 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plonebooking">
+
+  <head>
+    <metal:block fill-slot="head_slot">
+      <link rel="Stylesheet" type="text/css"  media="screen"
+	    tal:attributes="href string:$portal_url/jscalendar/calendar-system.css" />
+      <link rel="Stylesheet" type="text/css"  media="screen"
+            tal:attributes="href string:$portal_url/plonebooking_styles.css" />
+      <link rel="stylesheet" type="text/css" media="print" href=""
+            tal:attributes="href string:$portal_url/plonebooking_print.css" />
+
+    </metal:block>
+    <metal:javascriptslot fill-slot="javascript_head_slot">
+
+      <script type="text/javascript" src="jscalendar/calendar_stripped.js"></script>
+
+      <tal:block tal:define="pref_lang here/portal_languages/getPreferredLanguage;">
+     	<script
+           type="text/javascript"
+  	   charset="iso-8859-15"
+  	   tal:define="src string:jscalendar/calendar-${pref_lang}.js;"
+  	   tal:condition="exists:src"
+  	   tal:attributes="src src">
+	</script>
+        <script
+           type="text/javascript"
+           charset="iso-8859-15"
+           tal:define="src string:jscalendar/plonebooking_calendar-${pref_lang}.js;"
+           tal:condition="exists:src"
+           tal:attributes="src src">
+        </script>
+      </tal:block>
+      <script type="text/javascript" src="jscalendar/calendar_formfield.js"></script>
+      <script type="text/javascript"
+              tal:attributes="src string:$portal_url/plonebooking.js">
+      </script>
+      
+      <!-- calendar setting -->
+      <script tal:replace="structure view/getSetupJavascript" />
+      
+      <script type="text/javascript">
+        <!--
+        $(document).ready(function() {
+          //initialize the calendar...
+          $('#fullcalendar').fullCalendar({
+            header: {
+              left:   'month agendaWeek agendaDay',
+              center: 'title',
+              right:  'today prev,next'
+            },
+            defaultView: defaultCalendarView,
+            aspectRatio: 2,
+            weekMode: 'liquid', //The calendar will have either 4, 5, or 6 weeks, depending on the month.
+            minTime: calendarStartingHour,
+            maxTime: calendarEndingHour + 1,
+            axisFormat: 'HH:mm',
+            selectable: true, //Allows a user to highlight multiple days or timeslots by clicking and dragging.
+            dayClick: function(date) {
+              var startDate = date.getTime().toString().substring(0,10);
+              var endDate = (date.getTime() + 1000*3600*24 - 36).toString().substring(0,10);
+              //http://localhost:8080/servizio-tecnologie/prenotazioni/plonebooking_add_form?start_ts=1378418400&end_ts=1378422000
+              window.location = "./plonebooking_add_form?start_ts=" + startDate + "&end_ts=" + endDate;
+            },
+            select: function( startDate, endDate, allDay, jsEvent, view ) {
+              var startDate = startDate.getTime().toString().substring(0,10);
+              var endDate = (endDate.getTime() + 1000*3600*24 - 36).toString().substring(0,10);
+              window.location = "./plonebooking_add_form?start_ts=" + startDate + "&end_ts=" + endDate;
+            },
+            
+
+            
+          })
+          // END calendar initialize
+          
+          var view = $('#fullcalendar').fullCalendar('getView');
+          var visStart = view.visStart;
+          var visEnd = view.visStart;
+          $('#fullcalendar').fullCalendar('addEventSource', events);
+          alert(events);
+          
+        });
+        -->
+      </script>
+    </metal:javascriptslot>
+  </head>
+  <body>
+
+
+    <metal:fill fill-slot="main">
+      <div metal:define-macro="main"
+           id="booking-center-view">
+
+        <h1 tal:content="here/title_or_id"></h1>
+        
+        <div id='fullcalendar'></div>
+        
+        <div class="documentDescription"
+             tal:define="description here/Description"
+             tal:condition="description"
+             tal:content="description">
+          description
+        </div>
+        <metal:block metal:use-macro="here/plonebooking_macros/macros/main_view">
+          Calendar view
+        </metal:block>
+      </div>
+    </metal:fill>
+  </body>
+</html>

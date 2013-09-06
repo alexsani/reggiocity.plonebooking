@@ -3,9 +3,17 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
     i18n_domain="reggiocity.plonebooking">
 
-  <five:registerPackage package="." initialize=".initialize" />
+  <include package="five.grok" />
+  <includeDependencies package="." />
+  
+  <grok:grok package="." />
+
+  <i18n:registerTranslations directory="locales" />
 
   <genericsetup:registerProfile
       name="default"
@@ -14,6 +22,23 @@
       description="Installs the reggiocity.plonebooking package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  <!-- -*- extra stuff goes here -*- -->
+
+  <cmf:registerDirectory name="skins" directory="skins" recursive="True"/>
+
+  <!-- Declare mapping between portal_skins theme name and Zope 3 browser layers -->
+  <interface
+      interface=".interfaces.IThemeSpecific"
+      type="zope.publisher.interfaces.browser.IBrowserSkinType"
+      name="reggiocity.plonebooking"
+      />
+
+  <!--
+    Load template overrides using z3c.jbot
+  -->
+  <include package="z3c.jbot" file="meta.zcml" />
+
+  <browser:jbot
+      directory="templates"
+      layer=".interfaces.IAddonSpecific" />
   
 </configure>
